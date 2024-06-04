@@ -1,0 +1,12 @@
+RewriteEngine On
+
+# Check if mod_rewrite is enabled
+<IfModule mod_rewrite.c>
+    # Rewrite only if the request is for a moon phase image
+    RewriteRule ^moonphase/([0-9]{2})-([0-9]{2})-([0-9]{4})\.png$ moonphase.php?month=$1&day=$2&year=$3 [L,QSA]
+    # Set environment variables for the current date with leading zeroes
+    RewriteCond %{TIME_YEAR} (.+)
+    RewriteCond %{TIME_MON} (0[1-9]|1[0-2])
+    RewriteCond %{TIME_DAY} (0[1-9]|[1-2][0-9]|3[0-1])
+    RewriteRule ^moonphase/today\.png$ moonphase.php?month=%{TIME_MON}&day=%{TIME_DAY}&year=%{TIME_YEAR} [L,QSA]
+</IfModule>
